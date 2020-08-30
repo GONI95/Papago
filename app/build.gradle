@@ -40,6 +40,8 @@ dependencies {
     // Gson (json의 자바 오브젝트 직렬화를 위해 사용)
     def gson_version = "2.8.6"
     implementation "com.google.code.gson:gson:$gson_version"
+    //noinspection GradleCompatible,GradleCompatible
+    implementation 'com.android.support:design:27.1.0'
 
 
 }
