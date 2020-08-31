@@ -15,4 +15,68 @@
         <item>프랑스</item>
         <item>한국어</item>
     </string-array>
+    <string-array name="source_ko">
+        <item>독일어</item>
+        <item>러시아어</item>
+        <item>베트남어</item>
+        <item>스페인어</item>
+        <item>이탈리아어</item>
+        <item>인도네시아어</item>
+        <item>일본어</item>
+        <item>영어</item>
+        <item>중국어 간체</item>
+        <item>중국어 번체</item>
+        <item>태국어</item>
+        <item>프랑스</item>
+    </string-array>
+    <string-array name="source_en">
+        <item>일본어</item>
+        <item>중국어 간체</item>
+        <item>중국어 번체</item>
+        <item>프랑스</item>
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_ja">
+        <item>영어</item>
+        <item>중국어 간체</item>
+        <item>중국어 번체</item>
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_zh_ch">
+        <item>영어</item>
+        <item>일본어</item>
+        <item>중국어 번체</item>
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_zh_tw">
+        <item>영어</item>
+        <item>일본어</item>
+        <item>중국어 간체</item>
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_vi">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_id">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_th">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_de">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_ru">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_es">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_it">
+        <item>한국어</item>
+    </string-array>
+    <string-array name="source_fr">
+        <item>영어</item>
+        <item>한국어</item>
+    </string-array>
 </resources>
