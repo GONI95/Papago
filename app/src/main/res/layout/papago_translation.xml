@@ -12,13 +12,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="show text"
         android:textSize="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_request" />
 
@@ -29,7 +29,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:hint="input text"
         android:inputType="textMultiLine"
         android:textSize="14dp"
@@ -44,13 +43,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:background="@color/naverColor_Blue"
         android:text="요청하기"
         android:textSize="20dp"
-        android:textColor="#ffffff"
-        android:background="@color/naverColor_Blue"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -58,6 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editText"
         tools:ignore="MissingConstraints" />
 
+    <!-- scrollbars 하고 kotlin 파일에서 setmovementmethod 사용하면 스크롤 -->
     <TextView
         android:id="@+id/editTextLiveLength"
         android:layout_width="wrap_content"
@@ -67,6 +64,7 @@
         android:layout_marginBottom="8dp"
         android:text="0"
         android:textSize="10dp"
+        android:scrollbars = "vertical"
         app:layout_constraintBottom_toTopOf="@+id/button_request"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
@@ -106,6 +104,19 @@
         app:layout_constraintBottom_toTopOf="@+id/button_request"
         app:layout_constraintStart_toEndOf="@+id/spinner_source"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <ImageView
+        android:id="@+id/button_speech"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/ic_speeching" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

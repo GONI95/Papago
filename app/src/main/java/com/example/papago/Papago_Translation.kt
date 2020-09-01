@@ -1,10 +1,13 @@
 package com.example.papago
 
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeechService
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -28,7 +31,10 @@ class Papago_Translation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.papago_translation)
-
+        
+        // 텍스트 뷰에 스크롤 활성화
+        textView.movementMethod = ScrollingMovementMethod()
+        
         // 현재 문자 수를 출력하기 위한 TextWatcher
         val mTextWatcher: TextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
@@ -61,6 +67,9 @@ class Papago_Translation : AppCompatActivity() {
            else
                translation()
         }
+
+        button_speech.setOnClickListener {
+        }
     }
 
     // 스피너에서 선택한 소스, 타겟 값의 키워드를 가져오기위한 함수
@@ -84,17 +93,19 @@ class Papago_Translation : AppCompatActivity() {
     }
 
     fun spinner(spinner_source: Spinner, spinner_target: Spinner) {
-        val adapter = ArrayAdapter.createFromResource(this, R.array.source_target_list, R.layout.custom_spinner_item)
-        adapter.setDropDownViewResource(R.layout.custom_spinner)
-        spinner_source.adapter = adapter
-        spinner_source.setSelection(12)     // 아무것도 선택하지 않으면 종료되서 초기 값 지정
-
+        ArrayAdapter.createFromResource(this, R.array.source_target_list, R.layout.custom_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(R.layout.custom_spinner)
+                spinner_source.adapter = adapter
+                spinner_source.setSelection(12)
+            }
         spinner_source.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                source = spinner_source.getSelectedItem().toString();   // source에 선택 값 저장
+                source = spinner_source.getItemAtPosition(position).toString()
+                Log.d("source", "$source")
 
                 if(source != null) {
-                    val target_list: Array<String>
+                    var target_list : Array<String>
                     when (source) {
                         "한국어" -> target_list = resources.getStringArray(R.array.source_ko)
                         "영어" -> target_list = resources.getStringArray(R.array.source_en)
@@ -114,17 +125,19 @@ class Papago_Translation : AppCompatActivity() {
                     val adapter = ArrayAdapter(this@Papago_Translation, R.layout.custom_spinner_item, target_list)
                     adapter.setDropDownViewResource(R.layout.custom_spinner)
                     spinner_target.adapter = adapter
-                    spinner_target.setSelection(7)     // 아무것도 선택하지 않으면 종료되서 초기 값 지정
 
                     spinner_target.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            target = spinner_target.getSelectedItem().toString();
-                            Log.d("target: ", "$target")
-                        } override fun onNothingSelected(parent: AdapterView<*>?) {}
+                            target = target_list[position]
+                            Log.d("target", "$target")
+                        }
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        }
                     }
                 }
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
 
@@ -144,8 +157,8 @@ class Papago_Translation : AppCompatActivity() {
 
         val body = RequestBody.create(JSON, json.toString())
         val request = Request.Builder()
-            .header("X-Naver-Client-Id", "JWUruvHlY2ei3FaADncC")
-            .addHeader("X-Naver-Client-Secret", "ON_r3ssOGN")
+            .header("X-Naver-Client-Id", "yourid")
+            .addHeader("X-Naver-Client-Secret", "yourpassword")
             .url(url)
             .post(body)
             .build();

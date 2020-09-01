@@ -41,7 +41,8 @@ dependencies {
     def gson_version = "2.8.6"
     implementation "com.google.code.gson:gson:$gson_version"
     //noinspection GradleCompatible,GradleCompatible
-    implementation 'com.android.support:design:27.1.0'
+    def design_version = "27.1.0"
+    implementation "com.android.support:design:$design_version"
 
 
 }

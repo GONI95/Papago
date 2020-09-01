@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && null != data) {
             val result: ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent .EXTRA_RESULTS)
-            var intent = Intent(this, Papago_Translation::class.java)
+            intent = Intent(this, Papago_Translation::class.java)
             intent.putExtra("result", result[0])
             startActivity(intent)
         }
