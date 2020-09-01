@@ -16,7 +16,7 @@
         android:layout_marginBottom="8dp"
         android:text="show text"
         android:textSize="14dp"
-        app:layout_constraintBottom_toTopOf="@id/imageView4"
+        app:layout_constraintBottom_toTopOf="@id/button_speech"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

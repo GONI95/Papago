@@ -1,8 +1,8 @@
 package com.example.papago
 
+import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
-import android.speech.tts.TextToSpeechService
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
@@ -21,17 +21,26 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import org.json.JSONObject
 import java.io.IOException
+import java.util.*
 
 
 class Papago_Translation : AppCompatActivity() {
     var TAG = "Log"
     var source : String = ""
     var target : String = ""
+    private val clientId : String = "JWUruvHlY2ei3FaADncC"
+    private val clientSecret : String = "yourpassword"
+    lateinit var textToSpeech : TextToSpeech
+    var state : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.papago_translation)
-        
+
+        // 마이크로 보내진 data가 있다면
+        if(intent.hasExtra("result"))
+            editText.setText(intent.getStringExtra("result"))
+
         // 텍스트 뷰에 스크롤 활성화
         textView.movementMethod = ScrollingMovementMethod()
         
@@ -39,7 +48,7 @@ class Papago_Translation : AppCompatActivity() {
         val mTextWatcher: TextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                editTextLiveLength.setText( "글자 수: ${s!!.length.toString()}" )
+                editTextLiveLength.setText("글자 수: ${s!!.length.toString()}")
             }
             override fun afterTextChanged(s: Editable?) { }
         }
@@ -58,20 +67,40 @@ class Papago_Translation : AppCompatActivity() {
         val spinner_target = findViewById(R.id.spinner_target) as Spinner
         spinner(spinner_source, spinner_target)
 
-        if(intent.hasExtra("result"))
-            editText.setText(intent.getStringExtra("result"))
-
         button_request.setOnClickListener {     // 요청 버튼 클릭
            if(source.equals("") && target.equals(""))
                Toast.makeText(this, "언어를 선택해주세요", Toast.LENGTH_SHORT).show()
            else
                translation()
         }
-
+        textToSpeech = TextToSpeech(this, object : TextToSpeech.OnInitListener {
+            override fun onInit(status: Int) {
+                state = status
+            }
+        })
         button_speech.setOnClickListener {
+            onInit(state)
         }
     }
-
+    fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            var result : Int
+            println("pppppppppppppppppppppppppppppp :$target")
+            when (target) {
+                "영어" ->  result = textToSpeech.setLanguage(Locale.ENGLISH)
+                else -> result = textToSpeech.setLanguage(Locale.KOREA)
+            }
+            println("1111111111111111111111111111111111111111111111111111111111111111111111111: $result")
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this@Papago_Translation, "이 언어는 지원하지 않습니다.", Toast.LENGTH_SHORT)
+                    .show();
+            } else {
+                textToSpeech.setPitch(0.7f)
+                textToSpeech.setSpeechRate(0f)
+            }
+        }
+        google_TTS()
+    }
     // 스피너에서 선택한 소스, 타겟 값의 키워드를 가져오기위한 함수
     fun keyword(source: String?) : String {
         when (source) {
@@ -93,14 +122,23 @@ class Papago_Translation : AppCompatActivity() {
     }
 
     fun spinner(spinner_source: Spinner, spinner_target: Spinner) {
-        ArrayAdapter.createFromResource(this, R.array.source_target_list, R.layout.custom_spinner_item)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.source_target_list,
+            R.layout.custom_spinner_item
+        )
             .also { adapter ->
                 adapter.setDropDownViewResource(R.layout.custom_spinner)
                 spinner_source.adapter = adapter
                 spinner_source.setSelection(12)
             }
         spinner_source.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 source = spinner_source.getItemAtPosition(position).toString()
                 Log.d("source", "$source")
 
@@ -122,12 +160,21 @@ class Papago_Translation : AppCompatActivity() {
                         "프랑스어" -> target_list = resources.getStringArray(R.array.source_fr)
                         else -> target_list = resources.getStringArray(R.array.source_fr)
                     }
-                    val adapter = ArrayAdapter(this@Papago_Translation, R.layout.custom_spinner_item, target_list)
+                    val adapter = ArrayAdapter(
+                        this@Papago_Translation,
+                        R.layout.custom_spinner_item,
+                        target_list
+                    )
                     adapter.setDropDownViewResource(R.layout.custom_spinner)
                     spinner_target.adapter = adapter
 
                     spinner_target.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
                             target = target_list[position]
                             Log.d("target", "$target")
                         }
@@ -157,11 +204,11 @@ class Papago_Translation : AppCompatActivity() {
 
         val body = RequestBody.create(JSON, json.toString())
         val request = Request.Builder()
-            .header("X-Naver-Client-Id", "yourid")
-            .addHeader("X-Naver-Client-Secret", "yourpassword")
+            .header("X-Naver-Client-Id", clientId)
+            .addHeader("X-Naver-Client-Secret", clientSecret)
             .url(url)
             .post(body)
-            .build();
+            .build()
         Log.d("request: ", "${request.toString()}")
         Log.d("json_body", "${body.toString()}")
 
@@ -175,8 +222,28 @@ class Papago_Translation : AppCompatActivity() {
                 var str = response.body!!.string()
                 println(str)
                 var ppg = Gson().fromJson<PapagoDTO>(str, PapagoDTO::class.java)
-                textView.setText("번역 결과: ${ppg.message!!.result!!.translatedText}")
+                textView.setText("${ppg.message!!.result!!.translatedText}")
             }
         })
+    }
+
+    fun google_TTS() {
+        var text = textView.text.toString()
+
+        // 21 버전부턴 speak 메서드 사용법이 달라짐
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+            // QUEUE_FLUSH 해야 그 전의 재생대기열 삭제 후 출력, QUEUE_ADD는 전 내용에 더해서 출력 [params: 매개변수 사용하면 특정 엔진에 전달한다는데 뭔말인지,,, / 요청에 대한 고유 식별자: 필요없는듯]
+        } else {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
+
+    protected override fun onStop() {
+        super.onStop()
+        if (textToSpeech != null) {
+            textToSpeech.stop();    // 말하는 중이면 멈추는 것
+            textToSpeech.shutdown();    // 꼭 해줘야함
+        }
     }
 }
