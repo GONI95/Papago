@@ -29,7 +29,7 @@ class Papago_Translation : AppCompatActivity() {
     var source : String = ""
     var target : String = ""
     private val clientId : String = "JWUruvHlY2ei3FaADncC"
-    private val clientSecret : String = "yourpassword"
+    private val clientSecret : String = "ON_r3ssOGN"
     lateinit var textToSpeech : TextToSpeech
     var state : Int = 0
 
@@ -87,8 +87,9 @@ class Papago_Translation : AppCompatActivity() {
             var result : Int
             println("pppppppppppppppppppppppppppppp :$target")
             when (target) {
-                "영어" ->  result = textToSpeech.setLanguage(Locale.ENGLISH)
-                else -> result = textToSpeech.setLanguage(Locale.KOREA)
+                "영어" ->  result = textToSpeech.setLanguage(Locale.ENGLISH) // 0
+                "한국어" -> result = textToSpeech.setLanguage(Locale.KOREA) // 1
+                else -> result = TextToSpeech.LANG_NOT_SUPPORTED
             }
             println("1111111111111111111111111111111111111111111111111111111111111111111111111: $result")
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -97,9 +98,9 @@ class Papago_Translation : AppCompatActivity() {
             } else {
                 textToSpeech.setPitch(0.7f)
                 textToSpeech.setSpeechRate(0f)
+                google_TTS()
             }
         }
-        google_TTS()
     }
     // 스피너에서 선택한 소스, 타겟 값의 키워드를 가져오기위한 함수
     fun keyword(source: String?) : String {
