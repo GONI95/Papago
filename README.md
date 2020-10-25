@@ -1,5 +1,16 @@
 # Papago
 
+## 주요 기능
+
+Naver Papago API (번역기)
+
+OkHttp (파파고 api 서비스와 통신)
+
+TextWatcher (글자 수 출력)
+
+Google Mic (음성입력 시 Text로 변환)
+
+
 ## Run
 
 ![KakaoTalk_20201025_155235713](https://user-images.githubusercontent.com/68982398/97100902-efb1fc00-16db-11eb-9f80-ab73f9fced7f.jpg)
@@ -11,10 +22,3 @@
 ![KakaoTalk_20201025_155233804](https://user-images.githubusercontent.com/68982398/97100924-140dd880-16dc-11eb-8206-2519242db7fd.jpg)
 ![KakaoTalk_20201025_155233430](https://user-images.githubusercontent.com/68982398/97100925-15d79c00-16dc-11eb-9a92-b596bfc1e9ee.jpg)
 
-## 주요 기능
-
-OkHttp
-
-TextWatcher (글자 수 출력)
-
-Google Mic를 이용해 음성입력 시 Text로 변환
