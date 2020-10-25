@@ -10,3 +10,11 @@
 ![KakaoTalk_20201025_155234162](https://user-images.githubusercontent.com/68982398/97100923-13754200-16dc-11eb-917b-a102e4e6af8f.jpg)
 ![KakaoTalk_20201025_155233804](https://user-images.githubusercontent.com/68982398/97100924-140dd880-16dc-11eb-8206-2519242db7fd.jpg)
 ![KakaoTalk_20201025_155233430](https://user-images.githubusercontent.com/68982398/97100925-15d79c00-16dc-11eb-9a92-b596bfc1e9ee.jpg)
+
+## 주요 기능
+
+OkHttp
+
+TextWatcher (글자 수 출력)
+
+Google Mic를 이용해 음성입력 시 Text로 변환
