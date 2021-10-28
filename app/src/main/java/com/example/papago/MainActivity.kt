@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity() {
               intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
               intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Need to Speak")
               startActivityForResult(intent, REQUESTCODE) // onActivityResult 메서드의 request 코드에 추가되는 것으로 알고있음
-
-              //Toast.makeText(applicationContext, "Sorry your device not supported", Toast.LENGTH_SHORT).show()
             }
         }
         else {
